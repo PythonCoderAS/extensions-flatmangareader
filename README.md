@@ -3,6 +3,8 @@
 Extensions for sources made with the FlatMangaReader template.
 
 ### Contains sources:  
-* AsuraScans
-* FlameScans
-* ReadKomik
+* [AsuraScans](https://www.asurascans.com)
+* [FlameScans](https://flamescans.org)
+* [ManhwaX](https://manhwax.com)
+* [ReadKomik](https://readkomik.com)
+* [SekteDoujin](https://75.119.132.111/)

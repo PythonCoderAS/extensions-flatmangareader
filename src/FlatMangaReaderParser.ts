@@ -3,7 +3,7 @@ import {FlatMangaReader} from "./FlatMangaReader";
 
 export class FlatMangaReaderParser {
 
-    private readonly monthMap = new Map(Object.entries({
+    readonly monthMap = new Map(Object.entries({
         "jan": 0,
         "feb": 1,
         "mar": 2,
@@ -17,6 +17,8 @@ export class FlatMangaReaderParser {
         "nov": 10,
         "dec": 11
     }))
+
+    readonly pageRegex = /ts_reader\.run\(([^\n;]+)\)/i
 
 
     parseManga($: CheerioStatic, mangaId: string, base: string, source: FlatMangaReader) {
@@ -32,8 +34,9 @@ export class FlatMangaReaderParser {
             null, // Author
             null, // Artist
             null // Last Updated On,
-        ]
-        $("div.tsinfo div").map((index, element) => {
+        ];
+        const selector = $("div.tsinfo div");
+        selector.map((index, element) => {
             const value = $("i", element).first().text().trim()
             const name = $(element).first().children().remove().end().text().replace(/\s{2,}/, " ").trim().toLowerCase();
             switch (name) {
@@ -53,6 +56,80 @@ export class FlatMangaReaderParser {
         })
         const tags: Tag[] = [];
         $('a[rel=tag]', $("div.info-desc")).map((index, element) => {
+            tags.push(createTag({
+                id: element.attribs["href"].replace(`${base}/genres/`, ""),
+                label: $(element).text()
+            }))
+        })
+        const statusPart = selector.first().text().trim().toLowerCase();
+        let status: MangaStatus
+        if (statusPart === "ongoing") {
+            status = MangaStatus.ONGOING;
+        } else {
+            status = MangaStatus.COMPLETED;
+        }
+        const image = $('div[itemprop="image"] img').first();
+        const followCount: string | undefined = ($("div.bmc").first().text().match(/\d+/) || [])[0]
+        const mangaObj: Manga = {
+            image: image.attr("src") || "",
+            rating: rating || 0,
+            status: status,
+            titles: titles,
+            id: mangaId,
+            desc: summary,
+            tags: [createTagSection({
+                id: "genres",
+                label: "Genres",
+                tags: tags
+            })],
+            follows: followCount ? undefined : Number(followCount)
+        }
+        if (parts[0] && parts[0]?.trim() !== "-") {
+            mangaObj.author = parts[0];
+        }
+        if (parts[1] && parts[1]?.trim() !== "-") {
+            mangaObj.artist = parts[1];
+        }
+        if (parts[2] && parts[2]?.trim() !== "-") {
+            mangaObj.lastUpdate = parts[2];
+        }
+        return createManga(mangaObj);
+    }
+
+    parseMangaAlternate($: CheerioStatic, mangaId: string, base: string, source: FlatMangaReader) {
+        const summary = $("div.entry-content p").first().text().replaceAll(/\s{2,}/g, "").trim();
+        let titles: string[] = [$("h1.entry-title").first().text().trim()]
+        const alternatives = $("span.alternative").first().text();
+        const altParts = alternatives.split(source.alternateTitleSeparator)
+        if (altParts.length > 0 && altParts[0].trim()) {
+            titles = titles.concat(altParts)
+        }
+        const rating = Number($('div[itemprop="ratingValue"]').first().text())
+        const parts: (string | null)[] = [
+            null, // Author
+            null, // Artist
+            null // Last Updated On
+        ]
+        $("div.fmed").map((index, element) => {
+            const name = $("b", element).text().trim().toLowerCase();
+            const value = $("span", element).first().text().trim()
+            switch (name) {
+                case "author":
+                case "authors":
+                case "author(s)":
+                    parts[0] = value
+                    break;
+                case "artist":
+                case "artists":
+                case "artist(s)":
+                    parts[1] = value
+                    break;
+                case "updated on":
+                    parts[2] = value
+            }
+        })
+        const tags: Tag[] = [];
+        $('a[rel=tag]', $("div.infox")).map((index, element) => {
             tags.push(createTag({
                 id: element.attribs["href"].replace(`${base}/genres/`, ""),
                 label: $(element).text()
@@ -122,6 +199,29 @@ export class FlatMangaReaderParser {
             pages.push(element.attribs["src"] || "")
         })
         return pages;
+    }
+
+    parsePagesFromScript($: CheerioStatic): string[] {
+        const match = $.root().html()?.match(this.pageRegex);
+        const map: Map<string, string[]> = new Map()
+        if (match) {
+            const data = JSON.parse(match[1]);
+            if (data.sources && data.defaultSource) {
+                for (let i = 0; i < data.sources.length; i++) {
+                    const source = data.sources[i];
+                    if (source.source && source.images) {
+                        map.set(source.source, source.images)
+                    }
+                }
+                const returnData = map.get(data.defaultSource);
+                if (!returnData) {
+                    return ([...map.entries()][0] || [])[1] || [];
+                } else {
+                    return returnData;
+                }
+            }
+        }
+        return [];
     }
 
     parseMangaTile($: CheerioStatic, element: CheerioElement, base: string, mangaSourceDirectory: string) {
