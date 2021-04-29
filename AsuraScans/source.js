@@ -368,87 +368,14 @@ exports.AsuraScans = AsuraScans;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AsuraScansParser = void 0;
 const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
-const paperback_extensions_common_1 = require("paperback-extensions-common");
 class AsuraScansParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
     parseManga($, mangaId, base, source) {
-        var _a, _b, _c;
-        const summary = $("div.entry-content p").first().text().replaceAll(/\s{2,}/g, "").trim();
-        let titles = [$("h1.entry-title").first().text().trim()];
-        const alternatives = $("span.alternative").first().text();
-        const altParts = alternatives.split(source.alternateTitleSeparator);
-        if (altParts.length > 0 && altParts[0].trim()) {
-            titles = titles.concat(altParts);
-        }
-        const rating = Number($('div[itemprop="ratingValue"]').first().text());
-        const parts = [
-            null,
-            null,
-            null // Last Updated On
-        ];
-        $("div.fmed").map((index, element) => {
-            const name = $("b", element).text().trim().toLowerCase();
-            const value = $("span", element).first().text().trim();
-            switch (name) {
-                case "author":
-                case "authors":
-                case "author(s)":
-                    parts[0] = value;
-                    break;
-                case "artist":
-                case "artists":
-                case "artist(s)":
-                    parts[1] = value;
-                    break;
-                case "updated on":
-                    parts[2] = value;
-            }
-        });
-        const tags = [];
-        $('a[rel=tag]', $("div.infox")).map((index, element) => {
-            tags.push(createTag({
-                id: element.attribs["href"].replace(`${base}/genres/`, ""),
-                label: $(element).text()
-            }));
-        });
-        const statusPart = $("div.tsinfo div").first().text().trim().toLowerCase();
-        let status;
-        if (statusPart === "ongoing") {
-            status = paperback_extensions_common_1.MangaStatus.ONGOING;
-        }
-        else {
-            status = paperback_extensions_common_1.MangaStatus.COMPLETED;
-        }
-        const image = $('div[itemprop="image"] img').first();
-        const followCount = ($("div.bmc").first().text().match(/\d+/) || [])[0];
-        const mangaObj = {
-            image: image.attr("src") || "",
-            rating: rating || 0,
-            status: status,
-            titles: titles,
-            id: mangaId,
-            desc: summary,
-            tags: [createTagSection({
-                    id: "genres",
-                    label: "Genres",
-                    tags: tags
-                })],
-            follows: followCount ? undefined : Number(followCount)
-        };
-        if (parts[0] && ((_a = parts[0]) === null || _a === void 0 ? void 0 : _a.trim()) !== "-") {
-            mangaObj.author = parts[0];
-        }
-        if (parts[1] && ((_b = parts[1]) === null || _b === void 0 ? void 0 : _b.trim()) !== "-") {
-            mangaObj.artist = parts[1];
-        }
-        if (parts[2] && ((_c = parts[2]) === null || _c === void 0 ? void 0 : _c.trim()) !== "-") {
-            mangaObj.lastUpdate = parts[2];
-        }
-        return createManga(mangaObj);
+        return this.parseMangaAlternate($, mangaId, base, source);
     }
 }
 exports.AsuraScansParser = AsuraScansParser;
 
-},{"../FlatMangaReaderParser":29,"paperback-extensions-common":4}],28:[function(require,module,exports){
+},{"../FlatMangaReaderParser":29}],28:[function(require,module,exports){
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -717,6 +644,7 @@ class FlatMangaReaderParser {
             "nov": 10,
             "dec": 11
         }));
+        this.pageRegex = /ts_reader\.run\(([^\n;]+)\)/i;
     }
     parseManga($, mangaId, base, source) {
         var _a, _b, _c;
@@ -733,7 +661,8 @@ class FlatMangaReaderParser {
             null,
             null // Last Updated On,
         ];
-        $("div.tsinfo div").map((index, element) => {
+        const selector = $("div.tsinfo div");
+        selector.map((index, element) => {
             const value = $("i", element).first().text().trim();
             const name = $(element).first().children().remove().end().text().replace(/\s{2,}/, " ").trim().toLowerCase();
             switch (name) {
@@ -753,6 +682,81 @@ class FlatMangaReaderParser {
         });
         const tags = [];
         $('a[rel=tag]', $("div.info-desc")).map((index, element) => {
+            tags.push(createTag({
+                id: element.attribs["href"].replace(`${base}/genres/`, ""),
+                label: $(element).text()
+            }));
+        });
+        const statusPart = selector.first().text().trim().toLowerCase();
+        let status;
+        if (statusPart === "ongoing") {
+            status = paperback_extensions_common_1.MangaStatus.ONGOING;
+        }
+        else {
+            status = paperback_extensions_common_1.MangaStatus.COMPLETED;
+        }
+        const image = $('div[itemprop="image"] img').first();
+        const followCount = ($("div.bmc").first().text().match(/\d+/) || [])[0];
+        const mangaObj = {
+            image: image.attr("src") || "",
+            rating: rating || 0,
+            status: status,
+            titles: titles,
+            id: mangaId,
+            desc: summary,
+            tags: [createTagSection({
+                    id: "genres",
+                    label: "Genres",
+                    tags: tags
+                })],
+            follows: followCount ? undefined : Number(followCount)
+        };
+        if (parts[0] && ((_a = parts[0]) === null || _a === void 0 ? void 0 : _a.trim()) !== "-") {
+            mangaObj.author = parts[0];
+        }
+        if (parts[1] && ((_b = parts[1]) === null || _b === void 0 ? void 0 : _b.trim()) !== "-") {
+            mangaObj.artist = parts[1];
+        }
+        if (parts[2] && ((_c = parts[2]) === null || _c === void 0 ? void 0 : _c.trim()) !== "-") {
+            mangaObj.lastUpdate = parts[2];
+        }
+        return createManga(mangaObj);
+    }
+    parseMangaAlternate($, mangaId, base, source) {
+        var _a, _b, _c;
+        const summary = $("div.entry-content p").first().text().replaceAll(/\s{2,}/g, "").trim();
+        let titles = [$("h1.entry-title").first().text().trim()];
+        const alternatives = $("span.alternative").first().text();
+        const altParts = alternatives.split(source.alternateTitleSeparator);
+        if (altParts.length > 0 && altParts[0].trim()) {
+            titles = titles.concat(altParts);
+        }
+        const rating = Number($('div[itemprop="ratingValue"]').first().text());
+        const parts = [
+            null,
+            null,
+            null // Last Updated On
+        ];
+        $("div.fmed").map((index, element) => {
+            const name = $("b", element).text().trim().toLowerCase();
+            const value = $("span", element).first().text().trim();
+            switch (name) {
+                case "author":
+                case "authors":
+                case "author(s)":
+                    parts[0] = value;
+                    break;
+                case "artist":
+                case "artists":
+                case "artist(s)":
+                    parts[1] = value;
+                    break;
+                case "updated on":
+                    parts[2] = value;
+            }
+        });
+        const tags = [];
+        $('a[rel=tag]', $("div.infox")).map((index, element) => {
             tags.push(createTag({
                 id: element.attribs["href"].replace(`${base}/genres/`, ""),
                 label: $(element).text()
@@ -821,6 +825,30 @@ class FlatMangaReaderParser {
             pages.push(element.attribs["src"] || "");
         });
         return pages;
+    }
+    parsePagesFromScript($) {
+        var _a;
+        const match = (_a = $.root().html()) === null || _a === void 0 ? void 0 : _a.match(this.pageRegex);
+        const map = new Map();
+        if (match) {
+            const data = JSON.parse(match[1]);
+            if (data.sources && data.defaultSource) {
+                for (let i = 0; i < data.sources.length; i++) {
+                    const source = data.sources[i];
+                    if (source.source && source.images) {
+                        map.set(source.source, source.images);
+                    }
+                }
+                const returnData = map.get(data.defaultSource);
+                if (!returnData) {
+                    return ([...map.entries()][0] || [])[1] || [];
+                }
+                else {
+                    return returnData;
+                }
+            }
+        }
+        return [];
     }
     parseMangaTile($, element, base, mangaSourceDirectory) {
         const link = $("a", element);

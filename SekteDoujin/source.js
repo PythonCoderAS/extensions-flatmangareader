@@ -335,85 +335,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FlameScans = exports.FlameScansInfo = void 0;
-const FlatMangaReader_1 = require("../FlatMangaReader");
-const paperback_extensions_common_1 = require("paperback-extensions-common");
-const BASE = "https://flamescans.org";
-exports.FlameScansInfo = {
-    icon: "icon.png",
-    version: "1.0.2",
-    name: "FlameScans",
-    author: "PythonCoderAS",
-    authorWebsite: "https://github.com/PythonCoderAS",
-    description: "Extension that pulls manga from FlameScans",
-    language: "en",
-    hentaiSource: false,
-    websiteBaseURL: BASE,
-    sourceTags: [
-        {
-            text: "Notifications",
-            type: paperback_extensions_common_1.TagType.GREEN
-        }
-    ]
-};
-class FlameScans extends FlatMangaReader_1.FlatMangaReader {
-    constructor() {
-        super(...arguments);
-        this.baseUrl = BASE;
-        this.alternateTitleSeparator = " | ";
-        this.requestManager = createRequestManager({
-            requestsPerSecond: 4,
-            requestTimeout: 30000
-        });
-    }
-    getHomePageSections(sectionCallback) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const options = createRequestObject({
-                url: `${this.baseUrl}`,
-                method: 'GET'
-            });
-            let response = yield this.requestManager.schedule(options, 1);
-            let $ = this.cheerio.load(response.data);
-            const offset = $(this.mangaTileGroupSelector).length - 3;
-            sectionCallback(createHomeSection({
-                id: "top_today",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this),
-                title: "Top Today"
-            }));
-            sectionCallback(createHomeSection({
-                id: "update",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, offset, null, "div.utao"),
-                title: "Latest Update",
-                view_more: true
-            }));
-            sectionCallback(createHomeSection({
-                id: "latest_action",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, offset + 1, null, "div.utao"),
-                title: "Latest Action Manhwa"
-            }));
-            sectionCallback(createHomeSection({
-                id: "recommended",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, offset + 2),
-                title: "Recommendations"
-            }));
-            this.applyHomePageSections(sectionCallback, this.parser.parseTop($, this.baseUrl, this.mangaSourceDirectory));
-        });
-    }
-}
-exports.FlameScans = FlameScans;
-
-},{"../FlatMangaReader":27,"paperback-extensions-common":4}],27:[function(require,module,exports){
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlatMangaReader = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
 const FlatMangaReaderParser_1 = require("./FlatMangaReaderParser");
@@ -650,7 +571,7 @@ class FlatMangaReader extends paperback_extensions_common_1.Source {
 }
 exports.FlatMangaReader = FlatMangaReader;
 
-},{"./FlatMangaReaderParser":28,"paperback-extensions-common":4}],28:[function(require,module,exports){
+},{"./FlatMangaReaderParser":27,"paperback-extensions-common":4}],27:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FlatMangaReaderParser = void 0;
@@ -953,5 +874,93 @@ class FlatMangaReaderParser {
 }
 exports.FlatMangaReaderParser = FlatMangaReaderParser;
 
-},{"paperback-extensions-common":4}]},{},[26])(26)
+},{"paperback-extensions-common":4}],28:[function(require,module,exports){
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SekteDoujin = exports.SekteDoujinInfo = void 0;
+const FlatMangaReader_1 = require("../FlatMangaReader");
+const paperback_extensions_common_1 = require("paperback-extensions-common");
+const SekteDoujinParser_1 = require("./SekteDoujinParser");
+const BASE = "https://75.119.132.111";
+exports.SekteDoujinInfo = {
+    icon: "icon.png",
+    version: "1.0.0",
+    name: "SekteDoujin",
+    author: "PythonCoderAS",
+    authorWebsite: "https://github.com/PythonCoderAS",
+    description: "Extension that pulls manga from SekteDoujin",
+    language: "en",
+    hentaiSource: false,
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "18+",
+            type: paperback_extensions_common_1.TagType.YELLOW
+        }
+    ]
+};
+class SekteDoujin extends FlatMangaReader_1.FlatMangaReader {
+    constructor() {
+        super(...arguments);
+        this.baseUrl = BASE;
+        this.mangaSourceDirectory = "manga";
+        this.mangaPageDirectory = "manga";
+        this.parser = new SekteDoujinParser_1.SekteDoujinParser();
+    }
+    getHomePageSections(sectionCallback) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const options = createRequestObject({
+                url: `${this.baseUrl}`,
+                method: 'GET'
+            });
+            let response = yield this.requestManager.schedule(options, 1);
+            let $ = this.cheerio.load(response.data);
+            sectionCallback(createHomeSection({
+                id: "hot_komik_update",
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this),
+                title: "Hot Komik Update"
+            }));
+            sectionCallback(createHomeSection({
+                id: "project",
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
+                title: "Project Update"
+            }));
+            sectionCallback(createHomeSection({
+                id: "update",
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 2, null, "div.utao"),
+                title: "Latest Update",
+                view_more: true
+            }));
+            this.applyHomePageSections(sectionCallback, this.parser.parseTop($, this.baseUrl, this.mangaSourceDirectory));
+        });
+    }
+}
+exports.SekteDoujin = SekteDoujin;
+
+},{"../FlatMangaReader":26,"./SekteDoujinParser":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SekteDoujinParser = void 0;
+const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
+class SekteDoujinParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
+    parsePages($) {
+        return this.parsePagesFromScript($);
+    }
+}
+exports.SekteDoujinParser = SekteDoujinParser;
+
+},{"../FlatMangaReaderParser":27}]},{},[28])(28)
 });
