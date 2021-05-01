@@ -893,7 +893,7 @@ const SekteDoujinParser_1 = require("./SekteDoujinParser");
 const BASE = "https://75.119.132.111";
 exports.SekteDoujinInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -909,6 +909,10 @@ exports.SekteDoujinInfo = {
         {
             text: "18+",
             type: paperback_extensions_common_1.TagType.YELLOW
+        },
+        {
+            text: "Indonesian",
+            type: paperback_extensions_common_1.TagType.GREY
         }
     ]
 };
