@@ -6,7 +6,7 @@ const BASE = "https://75.119.132.111"
 
 export const SekteDoujinInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -22,6 +22,10 @@ export const SekteDoujinInfo: SourceInfo = {
         {
             text: "18+",
             type: TagType.YELLOW
+        },
+        {
+            text: "Indonesian",
+            type: TagType.GREY
         }
     ]
 }
