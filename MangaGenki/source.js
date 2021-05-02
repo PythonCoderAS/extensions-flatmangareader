@@ -870,6 +870,42 @@ exports.FlatMangaReaderParser = FlatMangaReaderParser;
 
 },{"paperback-extensions-common":4}],28:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MangaGenki = exports.MangaGenkiInfo = void 0;
+const paperback_extensions_common_1 = require("paperback-extensions-common");
+const ManhwaX_1 = require("../ManhwaX/ManhwaX");
+const BASE = "https://mangagenki.com";
+exports.MangaGenkiInfo = {
+    icon: "icon.png",
+    version: "1.0.0",
+    name: "MangaGenki",
+    author: "PythonCoderAS",
+    authorWebsite: "https://github.com/PythonCoderAS",
+    description: "Extension that pulls manga from MangaGenki",
+    language: "en",
+    hentaiSource: false,
+    websiteBaseURL: BASE,
+    sourceTags: [
+        {
+            text: "Notifications",
+            type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "18+",
+            type: paperback_extensions_common_1.TagType.YELLOW
+        }
+    ]
+};
+class MangaGenki extends ManhwaX_1.ManhwaX {
+    constructor() {
+        super(...arguments);
+        this.baseUrl = BASE;
+    }
+}
+exports.MangaGenki = MangaGenki;
+
+},{"../ManhwaX/ManhwaX":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -880,17 +916,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReadKomik = exports.ReadKomikInfo = void 0;
+exports.ManhwaX = exports.ManhwaXInfo = void 0;
 const FlatMangaReader_1 = require("../FlatMangaReader");
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-const BASE = "https://readkomik.com";
-exports.ReadKomikInfo = {
-    icon: "icon.png",
-    version: "1.0.4",
-    name: "ReadKomik",
+const ManhwaXParser_1 = require("./ManhwaXParser");
+const BASE = "https://manhwax.com";
+exports.ManhwaXInfo = {
+    icon: "icon.jpeg",
+    version: "1.0.2",
+    name: "ManhwaX",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
-    description: "Extension that pulls manga from ReadKomik",
+    description: "Extension that pulls manga from ManhwaX",
     language: "en",
     hentaiSource: false,
     websiteBaseURL: BASE,
@@ -898,13 +935,22 @@ exports.ReadKomikInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "18+",
+            type: paperback_extensions_common_1.TagType.YELLOW
+        },
+        {
+            text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
-class ReadKomik extends FlatMangaReader_1.FlatMangaReader {
+class ManhwaX extends FlatMangaReader_1.FlatMangaReader {
     constructor() {
         super(...arguments);
         this.baseUrl = BASE;
+        this.parser = new ManhwaXParser_1.ManhwaXParser();
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -915,32 +961,33 @@ class ReadKomik extends FlatMangaReader_1.FlatMangaReader {
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
             sectionCallback(createHomeSection({
-                id: "top_today",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this),
-                title: "Top Today"
-            }));
-            sectionCallback(createHomeSection({
-                id: "project",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
-                title: "Project Update",
-                view_more: true
-            }));
-            sectionCallback(createHomeSection({
                 id: "update",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 2, null, "div.utao"),
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 0, null, "div.utao"),
                 title: "Latest Update",
                 view_more: true
             }));
             sectionCallback(createHomeSection({
                 id: "recommended",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 3),
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1),
                 title: "Recommendations"
             }));
             this.applyHomePageSections(sectionCallback, this.parser.parseTop($, this.baseUrl, this.mangaSourceDirectory));
         });
     }
 }
-exports.ReadKomik = ReadKomik;
+exports.ManhwaX = ManhwaX;
 
-},{"../FlatMangaReader":26,"paperback-extensions-common":4}]},{},[28])(28)
+},{"../FlatMangaReader":26,"./ManhwaXParser":30,"paperback-extensions-common":4}],30:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ManhwaXParser = void 0;
+const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
+class ManhwaXParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
+    parseManga($, mangaId, base, source) {
+        return this.parseMangaAlternate($, mangaId, base, source);
+    }
+}
+exports.ManhwaXParser = ManhwaXParser;
+
+},{"../FlatMangaReaderParser":27}]},{},[28])(28)
 });

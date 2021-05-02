@@ -349,14 +349,12 @@ class FlatMangaReader extends paperback_extensions_common_1.Source {
          * The part of the URL that precedes every manga. For example, https://www.website.com/comics/1
          * has the source directory of "comics".
          */
-        this.mangaSourceDirectory = "series";
+        this.mangaSourceDirectory = "manga";
         /**
          * The segment of the URL that brings up the paged manga views. For example,
          * https://www.website.com/series/?page=1 has the page directory of "series".
-         *
-         * By default, it is assumed that the manga source directory and the manga page directory are the same.
          */
-        this.mangaPageDirectory = this.mangaSourceDirectory;
+        this.mangaPageDirectory = "manga";
         /**
          * The selector for a group of Manga Tiles. This is not for the top weekly/monthly/of all time tiles, but instead
          * for the tiles in the "latest updates" category as well as the search page and directory pages.
@@ -688,6 +686,9 @@ class FlatMangaReaderParser {
         $("div.fmed").map((index, element) => {
             const name = $("b", element).text().trim().toLowerCase();
             const value = $("span", element).first().text().trim();
+            if (value.trim().toLowerCase() === "updating") {
+                return;
+            }
             switch (name) {
                 case "author":
                 case "authors":
@@ -886,7 +887,7 @@ const ManhwaXParser_1 = require("./ManhwaXParser");
 const BASE = "https://manhwax.com";
 exports.ManhwaXInfo = {
     icon: "icon.jpeg",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "ManhwaX",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -914,8 +915,6 @@ class ManhwaX extends FlatMangaReader_1.FlatMangaReader {
         super(...arguments);
         this.baseUrl = BASE;
         this.parser = new ManhwaXParser_1.ManhwaXParser();
-        this.mangaSourceDirectory = "manga";
-        this.mangaPageDirectory = "manga";
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {

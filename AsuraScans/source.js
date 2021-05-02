@@ -333,7 +333,7 @@ const AsuraScansParser_1 = require("./AsuraScansParser");
 const BASE = "https://www.asurascans.com";
 exports.AsuraScansInfo = {
     icon: "icon.png",
-    version: "1.0.6",
+    version: "1.0.7",
     name: "AsuraScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -358,7 +358,6 @@ class AsuraScans extends FlatMangaReader_1.FlatMangaReader {
         this.baseUrl = BASE;
         this.parser = new AsuraScansParser_1.AsuraScansParser();
         this.mangaSourceDirectory = "comics";
-        this.mangaPageDirectory = "manga";
     }
 }
 exports.AsuraScans = AsuraScans;
@@ -401,14 +400,12 @@ class FlatMangaReader extends paperback_extensions_common_1.Source {
          * The part of the URL that precedes every manga. For example, https://www.website.com/comics/1
          * has the source directory of "comics".
          */
-        this.mangaSourceDirectory = "series";
+        this.mangaSourceDirectory = "manga";
         /**
          * The segment of the URL that brings up the paged manga views. For example,
          * https://www.website.com/series/?page=1 has the page directory of "series".
-         *
-         * By default, it is assumed that the manga source directory and the manga page directory are the same.
          */
-        this.mangaPageDirectory = this.mangaSourceDirectory;
+        this.mangaPageDirectory = "manga";
         /**
          * The selector for a group of Manga Tiles. This is not for the top weekly/monthly/of all time tiles, but instead
          * for the tiles in the "latest updates" category as well as the search page and directory pages.
@@ -740,6 +737,9 @@ class FlatMangaReaderParser {
         $("div.fmed").map((index, element) => {
             const name = $("b", element).text().trim().toLowerCase();
             const value = $("span", element).first().text().trim();
+            if (value.trim().toLowerCase() === "updating") {
+                return;
+            }
             switch (name) {
                 case "author":
                 case "authors":
