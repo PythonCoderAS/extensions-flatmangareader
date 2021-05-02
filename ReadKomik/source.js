@@ -768,13 +768,6 @@ class FlatMangaReaderParser {
         return chapterList;
     }
     parsePages($) {
-        const pages = [];
-        $('article[id] img[loading="lazy"]').map((index, element) => {
-            pages.push(element.attribs["src"] || "");
-        });
-        return pages;
-    }
-    parsePagesFromScript($) {
         var _a;
         const match = (_a = $.root().html()) === null || _a === void 0 ? void 0 : _a.match(this.pageRegex);
         const map = new Map();
@@ -889,11 +882,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReadKomik = exports.ReadKomikInfo = void 0;
 const FlatMangaReader_1 = require("../FlatMangaReader");
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-const ReadKomikParser_1 = require("./ReadKomikParser");
 const BASE = "https://readkomik.com";
 exports.ReadKomikInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "ReadKomik",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -912,7 +904,6 @@ class ReadKomik extends FlatMangaReader_1.FlatMangaReader {
     constructor() {
         super(...arguments);
         this.baseUrl = BASE;
-        this.parser = new ReadKomikParser_1.ReadKomikParser();
         this.mangaSourceDirectory = "manga";
         this.mangaPageDirectory = "manga";
     }
@@ -930,9 +921,10 @@ class ReadKomik extends FlatMangaReader_1.FlatMangaReader {
                 title: "Top Today"
             }));
             sectionCallback(createHomeSection({
-                id: "project_update",
+                id: "project",
                 items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
-                title: "Project Update"
+                title: "Project Update",
+                view_more: true
             }));
             sectionCallback(createHomeSection({
                 id: "update",
@@ -951,17 +943,5 @@ class ReadKomik extends FlatMangaReader_1.FlatMangaReader {
 }
 exports.ReadKomik = ReadKomik;
 
-},{"../FlatMangaReader":26,"./ReadKomikParser":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ReadKomikParser = void 0;
-const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
-class ReadKomikParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
-    parsePages($) {
-        return this.parsePagesFromScript($);
-    }
-}
-exports.ReadKomikParser = ReadKomikParser;
-
-},{"../FlatMangaReaderParser":27}]},{},[28])(28)
+},{"../FlatMangaReader":26,"paperback-extensions-common":4}]},{},[28])(28)
 });

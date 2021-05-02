@@ -847,13 +847,6 @@ class FlatMangaReaderParser {
         return chapterList;
     }
     parsePages($) {
-        const pages = [];
-        $('article[id] img[loading="lazy"]').map((index, element) => {
-            pages.push(element.attribs["src"] || "");
-        });
-        return pages;
-    }
-    parsePagesFromScript($) {
         var _a;
         const match = (_a = $.root().html()) === null || _a === void 0 ? void 0 : _a.match(this.pageRegex);
         const map = new Map();

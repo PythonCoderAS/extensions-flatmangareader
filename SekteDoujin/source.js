@@ -768,13 +768,6 @@ class FlatMangaReaderParser {
         return chapterList;
     }
     parsePages($) {
-        const pages = [];
-        $('article[id] img[loading="lazy"]').map((index, element) => {
-            pages.push(element.attribs["src"] || "");
-        });
-        return pages;
-    }
-    parsePagesFromScript($) {
         var _a;
         const match = (_a = $.root().html()) === null || _a === void 0 ? void 0 : _a.match(this.pageRegex);
         const map = new Map();
@@ -889,11 +882,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.SekteDoujin = exports.SekteDoujinInfo = void 0;
 const FlatMangaReader_1 = require("../FlatMangaReader");
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-const SekteDoujinParser_1 = require("./SekteDoujinParser");
 const BASE = "https://75.119.132.111";
 exports.SekteDoujinInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -922,7 +914,6 @@ class SekteDoujin extends FlatMangaReader_1.FlatMangaReader {
         this.baseUrl = BASE;
         this.mangaSourceDirectory = "manga";
         this.mangaPageDirectory = "manga";
-        this.parser = new SekteDoujinParser_1.SekteDoujinParser();
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -954,17 +945,5 @@ class SekteDoujin extends FlatMangaReader_1.FlatMangaReader {
 }
 exports.SekteDoujin = SekteDoujin;
 
-},{"../FlatMangaReader":26,"./SekteDoujinParser":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SekteDoujinParser = void 0;
-const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
-class SekteDoujinParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
-    parsePages($) {
-        return this.parsePagesFromScript($);
-    }
-}
-exports.SekteDoujinParser = SekteDoujinParser;
-
-},{"../FlatMangaReaderParser":27}]},{},[28])(28)
+},{"../FlatMangaReader":26,"paperback-extensions-common":4}]},{},[28])(28)
 });
