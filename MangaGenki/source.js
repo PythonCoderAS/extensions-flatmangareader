@@ -870,14 +870,24 @@ exports.FlatMangaReaderParser = FlatMangaReaderParser;
 
 },{"paperback-extensions-common":4}],28:[function(require,module,exports){
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MangaGenki = exports.MangaGenkiInfo = void 0;
 const paperback_extensions_common_1 = require("paperback-extensions-common");
-const ManhwaX_1 = require("../ManhwaX/ManhwaX");
+const MangaGenkiParser_1 = require("./MangaGenkiParser");
+const FlatMangaReader_1 = require("../FlatMangaReader");
 const BASE = "https://mangagenki.com";
 exports.MangaGenkiInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "MangaGenki",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -896,61 +906,11 @@ exports.MangaGenkiInfo = {
         }
     ]
 };
-class MangaGenki extends ManhwaX_1.ManhwaX {
+class MangaGenki extends FlatMangaReader_1.FlatMangaReader {
     constructor() {
         super(...arguments);
         this.baseUrl = BASE;
-    }
-}
-exports.MangaGenki = MangaGenki;
-
-},{"../ManhwaX/ManhwaX":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ManhwaX = exports.ManhwaXInfo = void 0;
-const FlatMangaReader_1 = require("../FlatMangaReader");
-const paperback_extensions_common_1 = require("paperback-extensions-common");
-const ManhwaXParser_1 = require("./ManhwaXParser");
-const BASE = "https://manhwax.com";
-exports.ManhwaXInfo = {
-    icon: "icon.jpeg",
-    version: "1.0.2",
-    name: "ManhwaX",
-    author: "PythonCoderAS",
-    authorWebsite: "https://github.com/PythonCoderAS",
-    description: "Extension that pulls manga from ManhwaX",
-    language: "en",
-    hentaiSource: false,
-    websiteBaseURL: BASE,
-    sourceTags: [
-        {
-            text: "Notifications",
-            type: paperback_extensions_common_1.TagType.GREEN
-        },
-        {
-            text: "18+",
-            type: paperback_extensions_common_1.TagType.YELLOW
-        },
-        {
-            text: "Cloudflare",
-            type: paperback_extensions_common_1.TagType.RED
-        }
-    ]
-};
-class ManhwaX extends FlatMangaReader_1.FlatMangaReader {
-    constructor() {
-        super(...arguments);
-        this.baseUrl = BASE;
-        this.parser = new ManhwaXParser_1.ManhwaXParser();
+        this.parser = new MangaGenkiParser_1.MangaGenkiParser();
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -961,33 +921,33 @@ class ManhwaX extends FlatMangaReader_1.FlatMangaReader {
             let response = yield this.requestManager.schedule(options, 1);
             let $ = this.cheerio.load(response.data);
             sectionCallback(createHomeSection({
-                id: "update",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 0, null, "div.utao"),
-                title: "Latest Update",
-                view_more: true
+                id: "top_today",
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this),
+                title: "Top Today"
             }));
             sectionCallback(createHomeSection({
-                id: "recommended",
-                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1),
-                title: "Recommendations"
+                id: "update",
+                items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
+                title: "Latest Update",
+                view_more: true
             }));
             this.applyHomePageSections(sectionCallback, this.parser.parseTop($, this.baseUrl, this.mangaSourceDirectory));
         });
     }
 }
-exports.ManhwaX = ManhwaX;
+exports.MangaGenki = MangaGenki;
 
-},{"../FlatMangaReader":26,"./ManhwaXParser":30,"paperback-extensions-common":4}],30:[function(require,module,exports){
+},{"../FlatMangaReader":26,"./MangaGenkiParser":29,"paperback-extensions-common":4}],29:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ManhwaXParser = void 0;
+exports.MangaGenkiParser = void 0;
 const FlatMangaReaderParser_1 = require("../FlatMangaReaderParser");
-class ManhwaXParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
+class MangaGenkiParser extends FlatMangaReaderParser_1.FlatMangaReaderParser {
     parseManga($, mangaId, base, source) {
         return this.parseMangaAlternate($, mangaId, base, source);
     }
 }
-exports.ManhwaXParser = ManhwaXParser;
+exports.MangaGenkiParser = MangaGenkiParser;
 
 },{"../FlatMangaReaderParser":27}]},{},[28])(28)
 });
