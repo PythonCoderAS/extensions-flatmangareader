@@ -1,11 +1,12 @@
-import {SourceInfo, TagType} from "paperback-extensions-common";
-import {ManhwaX} from "../ManhwaX/ManhwaX";
+import {HomeSection, Request, SourceInfo, TagType} from "paperback-extensions-common";
+import {MangaGenkiParser} from "./MangaGenkiParser";
+import {FlatMangaReader} from "../FlatMangaReader";
 
 const BASE = "https://mangagenki.com"
 
 export const MangaGenkiInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "MangaGenki",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -25,6 +26,29 @@ export const MangaGenkiInfo: SourceInfo = {
     ]
 }
 
-export class MangaGenki extends ManhwaX {
+export class MangaGenki extends FlatMangaReader {
     baseUrl: string = BASE;
+    readonly parser: MangaGenkiParser = new MangaGenkiParser()
+
+    async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
+        const options: Request = createRequestObject({
+            url: `${this.baseUrl}`,
+            method: 'GET'
+        });
+        let response = await this.requestManager.schedule(options, 1);
+        let $ = this.cheerio.load(response.data);
+        sectionCallback(createHomeSection({
+            id: "top_today",
+            items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this),
+            title: "Top Today"
+        }))
+        sectionCallback(createHomeSection({
+            id: "update",
+            items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
+            title: "Latest Update",
+            view_more: true
+        }))
+        this.applyHomePageSections(sectionCallback, this.parser.parseTop($, this.baseUrl, this.mangaSourceDirectory))
+    }
+
 }
