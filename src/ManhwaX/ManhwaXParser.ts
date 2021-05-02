@@ -5,8 +5,4 @@ export class ManhwaXParser extends FlatMangaReaderParser{
     parseManga($: CheerioStatic, mangaId: string, base: string, source: ManhwaX) {
         return this.parseMangaAlternate($, mangaId, base, source)
     }
-
-    parsePages($: CheerioStatic): string[] {
-        return this.parsePagesFromScript($)
-    }
 }

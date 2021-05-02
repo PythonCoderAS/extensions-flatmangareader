@@ -1,12 +1,11 @@
 import {FlatMangaReader} from "../FlatMangaReader";
 import {HomeSection, Request, SourceInfo, TagType} from "paperback-extensions-common";
-import {ReadKomikParser} from "./ReadKomikParser";
 
 const BASE = "https://readkomik.com"
 
 export const ReadKomikInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "ReadKomik",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -24,7 +23,6 @@ export const ReadKomikInfo: SourceInfo = {
 
 export class ReadKomik extends FlatMangaReader {
     baseUrl: string = BASE;
-    readonly parser: ReadKomikParser = new ReadKomikParser();
     mangaSourceDirectory: string = "manga";
     mangaPageDirectory: string = "manga";
 
@@ -41,9 +39,10 @@ export class ReadKomik extends FlatMangaReader {
             title: "Top Today"
         }))
         sectionCallback(createHomeSection({
-            id: "project_update",
+            id: "project",
             items: this.parser.parseMangaTileGroup($, this.baseUrl, this.mangaSourceDirectory, this, 1, null, "div.utao"),
-            title: "Project Update"
+            title: "Project Update",
+            view_more: true
         }))
         sectionCallback(createHomeSection({
             id: "update",

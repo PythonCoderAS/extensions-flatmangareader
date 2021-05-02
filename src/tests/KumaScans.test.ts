@@ -1,12 +1,12 @@
 import cheerio from 'cheerio'
-import {ReadKomik} from '../ReadKomik/ReadKomik'
+import {KumaScans} from '../KumaScans/KumaScans'
 import {APIWrapper} from "paperback-extensions-common";
 
-describe('ReadKomik Tests', function () {
+describe('KumaScans Tests', function () {
 
 
     var wrapper: APIWrapper = new APIWrapper();
-    var source: ReadKomik = new ReadKomik(cheerio);
+    var source: KumaScans = new KumaScans(cheerio);
     var chai = require('chai'), expect = chai.expect;
     var chaiAsPromised = require('chai-as-promised');
     chai.use(chaiAsPromised);
@@ -16,7 +16,7 @@ describe('ReadKomik Tests', function () {
      * Try to choose a manga which is updated frequently, so that the historical checking test can
      * return proper results, as it is limited to searching 30 days back due to extremely long processing times otherwise.
      */
-    var mangaId = "the-beginning-after-the-end";
+    var mangaId = "kiss-de-fusaide-bare-naide";
 
     it("Retrieve Manga Details", async () => {
         let details = await wrapper.getMangaDetails(source, mangaId);
@@ -58,7 +58,7 @@ describe('ReadKomik Tests', function () {
 
     it("Testing search", async () => {
         let testSearch = createSearchRequest({
-            title: 'end'
+            title: 'kiss'
         });
 
         let search = await wrapper.searchRequest(source, testSearch, {page: 0});

@@ -53,7 +53,7 @@ export abstract class FlatMangaReader extends Source {
     /**
      * The seperator the source uses for the alternative titles.
      */
-    alternateTitleSeparator: string = ", "
+    alternateTitleSeparator: string | RegExp = ", "
 
 
     readonly requestManager: RequestManager = createRequestManager({

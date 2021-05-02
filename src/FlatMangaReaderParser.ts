@@ -193,15 +193,7 @@ export class FlatMangaReaderParser {
         return chapterList;
     }
 
-    parsePages($: CheerioStatic) {
-        const pages: string[] = [];
-        $('article[id] img[loading="lazy"]').map((index, element) => {
-            pages.push(element.attribs["src"] || "")
-        })
-        return pages;
-    }
-
-    parsePagesFromScript($: CheerioStatic): string[] {
+    parsePages($: CheerioStatic): string[] {
         const match = $.root().html()?.match(this.pageRegex);
         const map: Map<string, string[]> = new Map()
         if (match) {

@@ -1,12 +1,11 @@
 import {FlatMangaReader} from "../FlatMangaReader";
 import {HomeSection, Request, SourceInfo, TagType} from "paperback-extensions-common";
-import {SekteDoujinParser} from "./SekteDoujinParser";
 
 const BASE = "https://75.119.132.111"
 
 export const SekteDoujinInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -34,8 +33,6 @@ export class SekteDoujin extends FlatMangaReader {
     baseUrl: string = BASE;
     mangaSourceDirectory: string = "manga";
     mangaPageDirectory: string = "manga";
-
-    readonly parser: SekteDoujinParser = new SekteDoujinParser();
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
         const options: Request = createRequestObject({
