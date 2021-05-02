@@ -10,7 +10,7 @@ export const SekteDoujinInfo: SourceInfo = {
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
     description: "Extension that pulls manga from SekteDoujin",
-    language: "en",
+    language: "id",
     hentaiSource: false,
     websiteBaseURL: BASE,
     sourceTags: [
