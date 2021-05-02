@@ -6,7 +6,7 @@ const BASE = "https://kumascans.com"
 
 export const KumaScansInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "KumaScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

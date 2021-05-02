@@ -1,5 +1,5 @@
 import {FlatMangaReader} from "../FlatMangaReader";
-import {HomeSection, Request, SourceInfo, TagType} from "paperback-extensions-common";
+import {HomeSection, LanguageCode, Request, SourceInfo, TagType} from "paperback-extensions-common";
 
 const BASE = "https://75.119.132.111"
 
@@ -33,6 +33,7 @@ export class SekteDoujin extends FlatMangaReader {
     baseUrl: string = BASE;
     mangaSourceDirectory: string = "manga";
     mangaPageDirectory: string = "manga";
+    language: LanguageCode = LanguageCode.INDONESIAN
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
         const options: Request = createRequestObject({
