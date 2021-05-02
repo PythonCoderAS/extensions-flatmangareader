@@ -113,6 +113,9 @@ export class FlatMangaReaderParser {
         $("div.fmed").map((index, element) => {
             const name = $("b", element).text().trim().toLowerCase();
             const value = $("span", element).first().text().trim()
+            if (value.trim().toLowerCase() === "updating"){
+                return;
+            }
             switch (name) {
                 case "author":
                 case "authors":

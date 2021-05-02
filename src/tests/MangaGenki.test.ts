@@ -1,12 +1,12 @@
 import cheerio from 'cheerio'
-import {ManhwaX} from '../ManhwaX/ManhwaX'
+import {MangaGenki} from '../MangaGenki/MangaGenki'
 import {APIWrapper} from "paperback-extensions-common";
 
-describe('ManhwaX Tests', function () {
+describe('MangaGenki Tests', function () {
 
 
     var wrapper: APIWrapper = new APIWrapper();
-    var source: ManhwaX = new ManhwaX(cheerio);
+    var source: MangaGenki = new MangaGenki(cheerio);
     var chai = require('chai'), expect = chai.expect;
     var chaiAsPromised = require('chai-as-promised');
     chai.use(chaiAsPromised);
@@ -16,7 +16,7 @@ describe('ManhwaX Tests', function () {
      * Try to choose a manga which is updated frequently, so that the historical checking test can
      * return proper results, as it is limited to searching 30 days back due to extremely long processing times otherwise.
      */
-    var mangaId = "never-to-late";
+    var mangaId = "stepmothers-friends";
 
     it("Retrieve Manga Details", async () => {
         let details = await wrapper.getMangaDetails(source, mangaId);
@@ -58,7 +58,7 @@ describe('ManhwaX Tests', function () {
 
     it("Testing search", async () => {
         let testSearch = createSearchRequest({
-            title: 'sex'
+            title: 'stepmother'
         });
 
         let search = await wrapper.searchRequest(source, testSearch, {page: 0});

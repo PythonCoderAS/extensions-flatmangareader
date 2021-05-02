@@ -5,7 +5,7 @@ const BASE = "https://readkomik.com"
 
 export const ReadKomikInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.3",
+    version: "1.0.4",
     name: "ReadKomik",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -23,8 +23,6 @@ export const ReadKomikInfo: SourceInfo = {
 
 export class ReadKomik extends FlatMangaReader {
     baseUrl: string = BASE;
-    mangaSourceDirectory: string = "manga";
-    mangaPageDirectory: string = "manga";
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
         const options: Request = createRequestObject({

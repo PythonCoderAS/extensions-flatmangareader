@@ -6,7 +6,7 @@ const BASE = "https://www.asurascans.com"
 
 export const AsuraScansInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.6",
+    version: "1.0.7",
     name: "AsuraScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -30,5 +30,4 @@ export class AsuraScans extends FlatMangaReader {
     baseUrl: string = BASE;
     readonly parser: AsuraScansParser = new AsuraScansParser();
     mangaSourceDirectory: string = "comics";
-    mangaPageDirectory: string = "manga";
 }

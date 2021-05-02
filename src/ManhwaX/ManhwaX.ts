@@ -6,7 +6,7 @@ const BASE = "https://manhwax.com"
 
 export const ManhwaXInfo: SourceInfo = {
     icon: "icon.jpeg",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "ManhwaX",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -33,8 +33,6 @@ export const ManhwaXInfo: SourceInfo = {
 export class ManhwaX extends FlatMangaReader {
     baseUrl: string = BASE;
     readonly parser: ManhwaXParser = new ManhwaXParser();
-    mangaSourceDirectory: string = "manga";
-    mangaPageDirectory: string = "manga";
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
         const options: Request = createRequestObject({

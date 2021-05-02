@@ -5,7 +5,7 @@ const BASE = "https://flamescans.org"
 
 export const FlameScansInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "FlameScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -25,6 +25,8 @@ export class FlameScans extends FlatMangaReader {
     baseUrl: string = BASE;
 
     alternateTitleSeparator: string = " | ";
+    mangaPageDirectory: string = "series";
+    mangaSourceDirectory: string = "series";
 
     readonly requestManager: RequestManager = createRequestManager({
         requestsPerSecond: 4,

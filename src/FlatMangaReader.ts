@@ -29,15 +29,13 @@ export abstract class FlatMangaReader extends Source {
      * The part of the URL that precedes every manga. For example, https://www.website.com/comics/1
      * has the source directory of "comics".
      */
-    mangaSourceDirectory: string = "series";
+    mangaSourceDirectory: string = "manga";
 
     /**
      * The segment of the URL that brings up the paged manga views. For example,
      * https://www.website.com/series/?page=1 has the page directory of "series".
-     *
-     * By default, it is assumed that the manga source directory and the manga page directory are the same.
      */
-    mangaPageDirectory: string = this.mangaSourceDirectory;
+    mangaPageDirectory: string = "manga";
 
     /**
      * The selector for a group of Manga Tiles. This is not for the top weekly/monthly/of all time tiles, but instead

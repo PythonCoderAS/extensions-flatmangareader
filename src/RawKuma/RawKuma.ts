@@ -5,7 +5,7 @@ const BASE = "https://rawkuma.com"
 
 export const RawKumaInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "RawKuma",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",

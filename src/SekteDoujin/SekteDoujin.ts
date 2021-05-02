@@ -5,7 +5,7 @@ const BASE = "https://75.119.132.111"
 
 export const SekteDoujinInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -31,8 +31,6 @@ export const SekteDoujinInfo: SourceInfo = {
 
 export class SekteDoujin extends FlatMangaReader {
     baseUrl: string = BASE;
-    mangaSourceDirectory: string = "manga";
-    mangaPageDirectory: string = "manga";
     language: LanguageCode = LanguageCode.INDONESIAN
 
     async getHomePageSections(sectionCallback: (section: HomeSection) => void): Promise<void> {
