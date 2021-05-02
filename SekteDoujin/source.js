@@ -914,6 +914,7 @@ class SekteDoujin extends FlatMangaReader_1.FlatMangaReader {
         this.baseUrl = BASE;
         this.mangaSourceDirectory = "manga";
         this.mangaPageDirectory = "manga";
+        this.language = paperback_extensions_common_1.LanguageCode.INDONESIAN;
     }
     getHomePageSections(sectionCallback) {
         return __awaiter(this, void 0, void 0, function* () {

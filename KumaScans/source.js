@@ -877,7 +877,7 @@ const KumaScansParser_1 = require("./KumaScansParser");
 const BASE = "https://kumascans.com";
 exports.KumaScansInfo = {
     icon: "icon.png",
-    version: "1.0.0",
+    version: "1.0.1",
     name: "KumaScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
