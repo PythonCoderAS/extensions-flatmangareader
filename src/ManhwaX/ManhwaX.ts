@@ -6,7 +6,7 @@ const BASE = "https://manhwax.com"
 
 export const ManhwaXInfo: SourceInfo = {
     icon: "icon.jpeg",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "ManhwaX",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -25,6 +25,10 @@ export const ManhwaXInfo: SourceInfo = {
         },
         {
             text: "Cloudflare",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: TagType.RED
         }
     ]

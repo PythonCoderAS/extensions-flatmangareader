@@ -1,3 +1,5 @@
+**Deprecated: I will no longer update these extensions. Please use other extensions as a replacement.**
+
 # extensions-mangastream
 
 Extensions for sources made with the FlatMangaReader template.

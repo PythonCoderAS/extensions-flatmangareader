@@ -6,7 +6,7 @@ const BASE = "https://mangagenki.com"
 
 export const MangaGenkiInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "MangaGenki",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -22,6 +22,10 @@ export const MangaGenkiInfo: SourceInfo = {
         {
           text: "18+",
           type: TagType.YELLOW
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

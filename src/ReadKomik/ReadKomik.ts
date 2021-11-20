@@ -5,7 +5,7 @@ const BASE = "https://readkomik.com"
 
 export const ReadKomikInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.4",
+    version: "1.0.5",
     name: "ReadKomik",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -17,6 +17,10 @@ export const ReadKomikInfo: SourceInfo = {
         {
             text: "Notifications",
             type: TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

@@ -5,7 +5,7 @@ const BASE = "https://flamescans.org"
 
 export const FlameScansInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.3",
+    version: "1.0.4",
     name: "FlameScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -17,6 +17,10 @@ export const FlameScansInfo: SourceInfo = {
         {
             text: "Notifications",
             type: TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: TagType.RED
         }
     ]
 }

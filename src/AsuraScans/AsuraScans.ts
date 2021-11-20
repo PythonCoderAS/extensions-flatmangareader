@@ -6,7 +6,7 @@ const BASE = "https://www.asurascans.com"
 
 export const AsuraScansInfo: SourceInfo = {
     icon: "icon.png",
-    version: "1.0.7",
+    version: "1.0.8",
     name: "AsuraScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -21,6 +21,10 @@ export const AsuraScansInfo: SourceInfo = {
         },
         {
             text: "Cloudflare",
+            type: TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: TagType.RED
         }
     ]
