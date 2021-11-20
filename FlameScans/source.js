@@ -341,7 +341,7 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const BASE = "https://flamescans.org";
 exports.FlameScansInfo = {
     icon: "icon.png",
-    version: "1.0.3",
+    version: "1.0.4",
     name: "FlameScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -353,6 +353,10 @@ exports.FlameScansInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

@@ -886,7 +886,7 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const BASE = "https://75.119.132.111";
 exports.SekteDoujinInfo = {
     icon: "icon.png",
-    version: "1.0.3",
+    version: "1.0.4",
     name: "SekteDoujin",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -906,6 +906,10 @@ exports.SekteDoujinInfo = {
         {
             text: "Indonesian",
             type: paperback_extensions_common_1.TagType.GREY
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

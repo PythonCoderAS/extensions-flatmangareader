@@ -887,7 +887,7 @@ const FlatMangaReader_1 = require("../FlatMangaReader");
 const BASE = "https://mangagenki.com";
 exports.MangaGenkiInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "MangaGenki",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -903,6 +903,10 @@ exports.MangaGenkiInfo = {
         {
             text: "18+",
             type: paperback_extensions_common_1.TagType.YELLOW
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

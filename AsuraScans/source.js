@@ -333,7 +333,7 @@ const AsuraScansParser_1 = require("./AsuraScansParser");
 const BASE = "https://www.asurascans.com";
 exports.AsuraScansInfo = {
     icon: "icon.png",
-    version: "1.0.7",
+    version: "1.0.8",
     name: "AsuraScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -348,6 +348,10 @@ exports.AsuraScansInfo = {
         },
         {
             text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: paperback_extensions_common_1.TagType.RED
         }
     ]

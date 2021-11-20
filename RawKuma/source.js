@@ -878,7 +878,7 @@ const KumaScansParser_1 = require("./KumaScansParser");
 const BASE = "https://kumascans.com";
 exports.KumaScansInfo = {
     icon: "icon.png",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "KumaScans",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -890,6 +890,10 @@ exports.KumaScansInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
@@ -924,7 +928,7 @@ const KumaScans_1 = require("../KumaScans/KumaScans");
 const BASE = "https://rawkuma.com";
 exports.RawKumaInfo = {
     icon: "icon.png",
-    version: "1.0.1",
+    version: "1.0.2",
     name: "RawKuma",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -936,6 +940,10 @@ exports.RawKumaInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };
@@ -966,7 +974,7 @@ const paperback_extensions_common_1 = require("paperback-extensions-common");
 const BASE = "https://readkomik.com";
 exports.ReadKomikInfo = {
     icon: "icon.png",
-    version: "1.0.4",
+    version: "1.0.5",
     name: "ReadKomik",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -978,6 +986,10 @@ exports.ReadKomikInfo = {
         {
             text: "Notifications",
             type: paperback_extensions_common_1.TagType.GREEN
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
+            type: paperback_extensions_common_1.TagType.RED
         }
     ]
 };

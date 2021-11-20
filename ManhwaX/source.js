@@ -887,7 +887,7 @@ const ManhwaXParser_1 = require("./ManhwaXParser");
 const BASE = "https://manhwax.com";
 exports.ManhwaXInfo = {
     icon: "icon.jpeg",
-    version: "1.0.2",
+    version: "1.0.3",
     name: "ManhwaX",
     author: "PythonCoderAS",
     authorWebsite: "https://github.com/PythonCoderAS",
@@ -906,6 +906,10 @@ exports.ManhwaXInfo = {
         },
         {
             text: "Cloudflare",
+            type: paperback_extensions_common_1.TagType.RED
+        },
+        {
+            text: "Deprecated - Will Not Be Updated",
             type: paperback_extensions_common_1.TagType.RED
         }
     ]
